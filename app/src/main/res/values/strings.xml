@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">FIREBASE</string>
+    <string name="Emial">Enter Your Email Address</string>
+    <string name="Pass">Enter Your PassWord</string>
+</resources>
