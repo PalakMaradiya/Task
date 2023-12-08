@@ -61,12 +61,12 @@
             android:orientation="horizontal">
 
 
-            <Button
-                android:id="@+id/btnCreteAccount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Crete Account" />
+<!--            <Button-->
+<!--                android:id="@+id/btnCreteAccount"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:text="Create Account" />-->
 
 
             <Button
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/_10sdp"
-                android:text="Logi in" />
+                android:text="Login" />
 
 
         </LinearLayout>

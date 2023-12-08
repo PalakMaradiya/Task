@@ -1,6 +1,7 @@
 package com.example.firebase.ACTIVITY
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -16,11 +17,21 @@ import com.google.firebase.storage.StorageReference
 import java.util.UUID
 
 class AddDataActivity : AppCompatActivity() {
-    private val PICK_IMAGE_REQUEST = 100
-    lateinit var uri: Uri
-    lateinit var d: Uri
 
-    lateinit var sharePreferences: SharedPreferences
+
+    companion object {
+        const val SHARED_PREFS = "shared_prefs"
+        const val EMAIL_KEY = "email_key"
+        const val PASSWORD_KEY = "password_key"
+    }
+
+
+
+    // variable for shared preferences.
+    private lateinit var sharedpreferences: SharedPreferences
+    private var email: String? = null
+
+
 
 
 
@@ -29,20 +40,27 @@ class AddDataActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddDataBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        sharePreferences=getSharedPreferences("MySharedPref", MODE_PRIVATE)
+        // initializing our shared preferences.
+        sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
         initview()
 
     }
 
     private fun initview() {
 
+        email = sharedpreferences.getString(EMAIL_KEY, null)
 
         var reference = FirebaseDatabase.getInstance().reference
 
-        var myEdit: SharedPreferences.Editor = sharePreferences.edit()
-        myEdit.putBoolean("isLogin", true)
-        myEdit.apply()
+        val editor = sharedpreferences.edit()
 
+        // below line will clear
+        // the data in shared prefs.
+        editor.clear()
+
+        // below line will apply empty
+        // data to shared prefs.
+        editor.apply()
 
 
         binding.btnSumbit.setOnClickListener {

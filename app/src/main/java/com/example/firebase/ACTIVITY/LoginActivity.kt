@@ -1,7 +1,7 @@
 package com.example.firebase.ACTIVITY
 
 
-import android.R.attr.name
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -15,45 +15,60 @@ import com.google.firebase.ktx.Firebase
 
 
 class LoginActivity : AppCompatActivity() {
+
+
+    companion object {
+        const val SHARED_PREFS = "shared_prefs"
+        const val EMAIL_KEY = "email_key"
+        const val PASSWORD_KEY = "password_key"
+    }
+
     lateinit var binding: ActivityLoginBinding
     lateinit var auth: FirebaseAuth
-    lateinit var email : String
-    lateinit var pass : String
-    lateinit var sharePreferences: SharedPreferences
+    private var email: String? = null
+    private var password: String? = null
+
+    lateinit var sharedpreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        sharePreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
+        sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
         initview()
     }
 
     private fun initview() {
 
 
+        email = sharedpreferences.getString("EMAIL_KEY", null)
+        password = sharedpreferences.getString("PASSWORD_KEY", null)
+
         auth = Firebase.auth
 
         var email = binding.edtEmail.text.toString()
         var pass = binding.edtPassword.text.toString()
+
+
 //        for crete Account
-
-        binding.btnCreteAccount.setOnClickListener {
-
-
-            auth.createUserWithEmailAndPassword(email, pass)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-
-                        Toast.makeText(this, "Account Create Succsefully", Toast.LENGTH_SHORT).show()
+//
+//        binding.btnCreteAccount.setOnClickListener {
 
 
-                    } else {
-
-                        Log.e("TAG", "initview: " + task)
-                        Toast.makeText(this, "Invalid Email & Password ", Toast.LENGTH_SHORT).show()
-                    }
-                }
+//            auth.createUserWithEmailAndPassword(email, pass)
+//                .addOnCompleteListener(this) { task ->
+//                    if (task.isSuccessful) {
+//
+//                        Toast.makeText(this, "Account Create Succsefully", Toast.LENGTH_SHORT)
+//                            .show()
+//
+//
+//                    } else {
+//
+//                        Log.e("TAG", "initview: " + task)
+//                        Toast.makeText(this, "Invalid Email & Password ", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
 
 
 //            for login
@@ -69,11 +84,15 @@ class LoginActivity : AppCompatActivity() {
 
                             Toast.makeText(this, "Login Succsefully", Toast.LENGTH_SHORT).show()
 
-                            var myEdit: SharedPreferences.Editor = sharePreferences.edit()
-                            myEdit.putBoolean("isLogin", true)
-                            myEdit.putString("email", email)
-                            myEdit.putString("pass", pass)
-                            myEdit.apply()
+                            val editor = sharedpreferences.edit()
+
+                            // below two lines will put values for
+                            // email and password in shared preferences.
+                            editor.putString(EMAIL_KEY, email.text.toString())
+                            editor.putString(PASSWORD_KEY, pass.text.toString())
+
+                            // to save our data with key and value.
+                            editor.apply()
                             Log.e("TAG", "initview: " + task.exception.toString())
                             val i = Intent(this@LoginActivity, AddDataActivity::class.java)
                             startActivity(i)
@@ -89,7 +108,23 @@ class LoginActivity : AppCompatActivity() {
 
             }
         }
+
+
+
+    override fun onStart() {
+        super.onStart()
+        if (email != null && password != null) {
+            val i = Intent(this@LoginActivity, AddDataActivity::class.java)
+            startActivity(i)
+        }
+
     }
+
+    private val String.text: Any
+        get() {
+            var i: String
+            return 0
+        }
 
 
 }

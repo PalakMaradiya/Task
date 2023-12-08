@@ -1,8 +1,11 @@
 package com.example.firebase.ACTIVITY
 
+import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.firebase.MODALCLASS.ModalClass
 import com.example.firebase.ADAPTER.ShowAdapter
@@ -30,6 +33,12 @@ class ShowDataAvtivity : AppCompatActivity() {
 
         binding.btnShowData.setOnClickListener {
 
+
+            val progressDialog = ProgressDialog(this)
+            progressDialog.setTitle("Please Wait")
+            progressDialog.setMessage("Application is loading, please wait")
+            progressDialog.show()
+
             reference.root.child("InformestionTb").addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
 
@@ -39,6 +48,8 @@ class ShowDataAvtivity : AppCompatActivity() {
                             list.add(data)
                         }
                     }
+
+                    progressDialog.dismiss()
 
                     adapter = ShowAdapter(this@ShowDataAvtivity,list, onItemClick = { name,age,city,number,key ->
 
@@ -50,14 +61,12 @@ class ShowDataAvtivity : AppCompatActivity() {
                         i.putExtra("number",number)
                         startActivity(i)
 
-                    }) { key ->
+                    }, onItemDeleted = { key ->
 
+                        reference = FirebaseDatabase.getInstance().getReference().child("InformestionTb").child(key)
+                       reference.removeValue()
 
-                        reference =
-                            FirebaseDatabase.getInstance().getReference().child("InformestionTb")
-                                .child(key)
-                        reference.removeValue()
-                    }
+                    })
 
                     adapter.refresh(list)
                     var manager = LinearLayoutManager(this@ShowDataAvtivity,LinearLayoutManager.VERTICAL,false)
@@ -68,6 +77,7 @@ class ShowDataAvtivity : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
+
 
                 }
 

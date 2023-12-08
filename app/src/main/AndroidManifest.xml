@@ -16,12 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FIREBASE"
         tools:targetApi="31">
-        <activity
-            android:name=".ACTIVITY.ImageActivity"
-            android:exported="true" >
 
 
-        </activity>
+
         <activity
             android:name=".ACTIVITY.UpdateDataActivity"
             android:exported="false" />
@@ -33,9 +30,7 @@
             android:name=".ACTIVITY.AddDataActivity"
             android:exported="true">
         </activity>
-        <activity
-            android:name=".ACTIVITY.HomeActivity"
-            android:exported="false" />
+
         <activity
             android:name=".ACTIVITY.LoginActivity"
             android:exported="true" >

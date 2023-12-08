@@ -65,10 +65,6 @@ class ShowAdapter(
             onItemDeleted.invoke(list[position].key)
         }
 
-
-
-
-
     }
 
 
