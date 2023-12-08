@@ -1,5 +1,6 @@
 package com.example.firebase.ADAPTER
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +21,7 @@ class ShowAdapter(
 ) : RecyclerView.Adapter<ShowAdapter.MyViewHolder>() {
     class MyViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
 
-        val img: ImageView = itemView.findViewById(R.id.img)
+//        val img: ImageView = itemView.findViewById(R.id.img)
         var txtName : TextView = itemView.findViewById(R.id.txtName)
         var txtAge : TextView = itemView.findViewById(R.id.txtAge)
         var txtCity : TextView = itemView.findViewById(R.id.txtCity)
@@ -47,8 +48,8 @@ class ShowAdapter(
         holder.txtAge.text = list[position].age
         holder.txtCity.text = list[position].city
         holder.txtNumber.text = list[position].number
-
-        Glide.with(showDataAvtivity).load(list[position].uri).into(holder.img)
+//
+//        Glide.with(showDataAvtivity).load(list[position].uri).into(holder.img)
 
         holder.imgEdit.setOnClickListener {
 
@@ -63,6 +64,8 @@ class ShowAdapter(
 
 
             onItemDeleted.invoke(list[position].key)
+
+            Log.e("TAG", "onBindViewHolder: "+list[position].key)
         }
 
     }

@@ -10,7 +10,7 @@ import com.google.firebase.database.FirebaseDatabase
 
 class UpdateDataActivity : AppCompatActivity() {
     lateinit var binding: ActivityUpdateDataBinding
-    lateinit var key : String
+    lateinit var key: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUpdateDataBinding.inflate(layoutInflater)
@@ -25,7 +25,7 @@ class UpdateDataActivity : AppCompatActivity() {
         var reference = FirebaseDatabase.getInstance().reference
 
         if (intent != null) {
-             key = intent.getStringExtra("key").toString()
+            key = intent.getStringExtra("key").toString()
             var name = intent.getStringExtra("name").toString()
             var age = intent.getStringExtra("age").toString()
             var city = intent.getStringExtra("city").toString()
@@ -33,7 +33,6 @@ class UpdateDataActivity : AppCompatActivity() {
 
             binding.edtName.setText(name)
             binding.edtAge.setText(age)
-
             binding.edtNumber.setText(number)
             binding.edtCity.setText(city)
 
@@ -47,7 +46,8 @@ class UpdateDataActivity : AppCompatActivity() {
                 var number1 = binding.edtNumber.text.toString()
 
 
-                var modelClass = ModalClass(name1, age1, number1, city1, key,)
+                var modelClass = ModalClass(name1, age1, number1, city1, key)
+
 
                 reference.root.child("InformestionTb").child(key).setValue(modelClass)
                     .addOnCompleteListener {
@@ -69,5 +69,6 @@ class UpdateDataActivity : AppCompatActivity() {
         }
 
     }
-
 }
+
+
