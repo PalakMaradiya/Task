@@ -18,7 +18,6 @@ import com.google.firebase.database.ValueEventListener
 class ShowDataAvtivity : AppCompatActivity() {
     lateinit var binding: ActivityShowDataAvtivityBinding
     lateinit var adapter : ShowAdapter
-
      var list = ArrayList<ModalClass>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,21 +61,26 @@ class ShowDataAvtivity : AppCompatActivity() {
                         i.putExtra("number",number)
                         startActivity(i)
 
-                    },
-
-                        onItemDeleted = { key ->
-
-                        reference = FirebaseDatabase.getInstance().getReference().child("InformestionTb").child(key)
-                        reference.removeValue()
+                    }, onItemDeleted= { key ->
 
 
+
+
+                       reference.root.child("InformestionTb").child(key).removeValue()
+                            .addOnCompleteListener {
+                                if (it.isSuccessful) {
+                                    Toast.makeText(this@ShowDataAvtivity, "Record Deleted Successfully", Toast.LENGTH_SHORT).show()
+                                }
+                            }.addOnFailureListener {
+                                Log.e("TAG", "initView: " + it.message)
+                            }
 
                     })
 
+                    adapter.refresh(list)
                     var manager = LinearLayoutManager(this@ShowDataAvtivity,LinearLayoutManager.VERTICAL,false)
                     binding.rcv.adapter = adapter
                     binding.rcv.layoutManager= manager
-                    adapter.refresh(list)
 
 
                 }
@@ -94,4 +98,7 @@ class ShowDataAvtivity : AppCompatActivity() {
         }
 
     }
+
+
+
 }
